@@ -1,0 +1,19 @@
+package service;
+
+import model.SearchCarInfo;
+
+public class SearchCarInfoCreator {
+    public static final String TESTDATA_START_LOCATION="testdata.searchcarinfo.startlocation";
+    public static final String TESTDATA_END_LOCATION="testdata.searchcarinfo.endlocation";
+    public static final String TESTDATA_START_DATE="testdata.searchcarinfo.startdate";
+    public static final String TESTDATA_END_DATE="testdata.searchcarinfo.enddate";
+
+    public static SearchCarInfo withSameStartAndEndLocations(){
+        return new SearchCarInfo(TestDataReader.getTestData(TESTDATA_START_LOCATION), TestDataReader.getTestData(TESTDATA_START_DATE),
+                TestDataReader.getTestData(TESTDATA_END_DATE));
+    }
+    public static SearchCarInfo withDifferentStartAndEndLocations(){
+        return new SearchCarInfo(TestDataReader.getTestData(TESTDATA_START_LOCATION), TestDataReader.getTestData(TESTDATA_START_DATE),
+                TestDataReader.getTestData(TESTDATA_END_LOCATION), TestDataReader.getTestData(TESTDATA_END_DATE));
+    }
+}
