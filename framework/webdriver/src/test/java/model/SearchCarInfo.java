@@ -19,6 +19,10 @@ public class SearchCarInfo {
         this.dropOffDate = dropOffDate;
     }
 
+    public SearchCarInfo(String pickUpDate, String dropOffDate){
+        this.pickUpDate=pickUpDate;
+        this.dropOffDate=dropOffDate;
+    }
     public String getPickUpLocation() {
         return pickUpLocation;
     }

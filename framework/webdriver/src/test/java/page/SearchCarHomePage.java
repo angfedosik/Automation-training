@@ -1,29 +1,29 @@
 package page;
 
-import driver.DriverSingleton;
 import model.SearchCarInfo;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class SearchCarHomePage {
+public class SearchCarHomePage extends AbstractPage{
 
-    private final static String HOMEPAGE_URL="https://www.ibookacar.com/";
-    private final static String LOCATION_PICKUP="//*[@id=\"ajxPickupLocation\"]";
-    private final static String DATE_PICKUP="//*[@id=\"content_carSearchCtrl_txtPickupDate\"]";
-    private final static String TIME_SELECTOR_PICKUP="//*[@id=\"content_carSearchCtrl_ddlPickupHour\"]";
-    private final static String TIME_PICKUP="//*[@id=\"content_carSearchCtrl_ddlPickupHour\"]/option[12]";
+    private static final String HOMEPAGE_URL="https://www.ibookacar.com/";
+    private static final String LOCATION_PICKUP="//*[@id=\"ajxPickupLocation\"]";
+    private static final String DATE_PICKUP="//*[@id=\"content_carSearchCtrl_txtPickupDate\"]";
+    private static final String TIME_SELECTOR_PICKUP="//*[@id=\"content_carSearchCtrl_ddlPickupHour\"]";
+    private static final String TIME_PICKUP="//*[@id=\"content_carSearchCtrl_ddlPickupHour\"]/option[12]";
 
-    private final static String LOCATION_DROPOFF="//*[@id=\"ajxDropoffLocation\"]";
-    private final static String DATE_DROPOFF="//*[@id=\"content_carSearchCtrl_txtDropOffDate\"]";
-    private final static String TIME_SELECTOR_DROPOFF="//*[@id=\"content_carSearchCtrl_ddlDropOffHour\"]";
-    private final static String TIME_DROPOFF="//*[@id=\"content_carSearchCtrl_ddlDropOffHour\"]/option[11]";
+    private static final String LOCATION_DROPOFF="//*[@id=\"ajxDropoffLocation\"]";
+    private static final String DATE_DROPOFF="//*[@id=\"content_carSearchCtrl_txtDropOffDate\"]";
+    private static final String TIME_SELECTOR_DROPOFF="//*[@id=\"content_carSearchCtrl_ddlDropOffHour\"]";
+    private static final String TIME_DROPOFF="//*[@id=\"content_carSearchCtrl_ddlDropOffHour\"]/option[11]";
 
-    private final static String SEARCH_BUTTON="//*[@id=\"content_carSearchCtrl_btnSearch\"]";
-    private final static String DROPOFF_LOCATION_CHECKBOX="//*[@id=\"chkSameDropOffLocation\"]";
+    private static final String SEARCH_BUTTON="//*[@id=\"content_carSearchCtrl_btnSearch\"]";
+    private static final String DROPOFF_LOCATION_CHECKBOX="//*[@id=\"chkSameDropOffLocation\"]";
 
-    private WebDriver driver;
+    private static final String MY_BOOKING_BUTTON="//*[@id=\"form1\"]/div[4]/nav/section/ul/li[4]/a";
+
 
     @FindBy(xpath = LOCATION_PICKUP)
     private WebElement locationPickUp;
@@ -55,13 +55,17 @@ public class SearchCarHomePage {
     @FindBy(xpath = DROPOFF_LOCATION_CHECKBOX)
     private WebElement dropOffLocationCheckbox;
 
+    @FindBy(xpath = MY_BOOKING_BUTTON)
+    private WebElement myBookingButton;
+
     public SearchCarHomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver,this);
     }
 
     public SearchCarHomePage openHomePage(){
         driver.get(HOMEPAGE_URL);
+        logger.info("Home page opened");
         return this;
     }
 
@@ -76,6 +80,7 @@ public class SearchCarHomePage {
         timeSelectorDropOff.click();
         timeDropOff.click();
         searchButton.click();
+        logger.info("Base information filled");
     }
 
     public SearchCarResultPage searchCarWithSameLocations(SearchCarInfo searchCarInfo){
@@ -87,8 +92,16 @@ public class SearchCarHomePage {
     public SearchCarResultPage searchCarWithDifferentLocations(SearchCarInfo searchCarInfo){
         dropOffLocationCheckbox.click();
         locationDropOff.sendKeys(searchCarInfo.getDropOffLocation());
+        logger.info("Drop off location filled");
         baseFillIn(searchCarInfo);
         return new SearchCarResultPage(driver, searchCarInfo);
 
     }
+
+    public MyBookingPage searchMyBooking(){
+        myBookingButton.click();
+        logger.info("My booking button clicked");
+        return new MyBookingPage(driver);
+    }
+
 }
