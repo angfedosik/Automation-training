@@ -9,7 +9,7 @@ public abstract class AbstractPage
     protected WebDriver driver;
 
     protected Logger logger = LogManager.getRootLogger();
-    protected final int TIMEOUT_SECONDS = 10;
+    protected final int TIMEOUT_SECONDS = 8;
 
     protected AbstractPage(WebDriver driver)
     {
